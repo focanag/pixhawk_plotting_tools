@@ -18,14 +18,20 @@ class LogAnalyzer():
         else:
             self.legendCmd = ''
         self.mavgraph = "/usr/local/bin/mavgraph.py"
-        self.mavgraphOptions = "--flightmode=px4"
-        self.plots = {"Altitude":
-                      ("GPS.Alt SENS.BaroAlt GPOS.Alt GPSP.Alt"),
-                      "Roll": "ATT.Roll ATSP.RollSP",
-                      "Pitch": "ATT.Pitch ATSP.PitchSP",
-                      "Lat": "GPS.Lat GPOS.Lat GPSP.Lat",
-                      "Lon": "GPS.Lon GPOS.Lon GPSP.Lon",
-                      "Alt": "GPS.Alt GPS.nSat STAT.MainState"}
+        self.mavgraphOptions = "--flightmode=apm"
+        #self.plots = {"Altitude": "GPS.Alt GPS.RelAlt CTUN.WPAlt CTUN.BarAlt",
+        #              "Roll": "ATT.Roll ATSP.RollSP",
+        #              "Pitch": "ATT.Pitch ATSP.PitchSP",
+        #              "Lat": "GPS.Lat GPOS.Lat GPSP.Lat",
+        #              "Lon": "GPS.Lng",
+        #              "Alt": "GPS.Alt GPS.nSat STAT.MainState"}
+        self.plots = {"Altitude": "GPS.Alt GPS.RelAlt CMD.Alt",
+		      "Attitude-ROLL": "ATT.Roll ATT.DesRoll",
+		      "Attitude-PITCH": "ATT.Pitch ATT.DesPitch",
+		      "Attitude-YAW": "ATT.Yaw ATT.DesYaw",
+		      "IMU-ACC": "IMU.AccX IMU.AccY IMU.AccZ",
+		      "MAG": ("MAG.MagX MAG.MagY MAG.MagZ "
+			"MAG.MagX^2, MAG.MagY^2, MAG.MagZ^2")}
 
     def generatePlots(self, filename, dirname):
         """produce plots for filename in dirname"""
