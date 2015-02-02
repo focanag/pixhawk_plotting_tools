@@ -25,13 +25,20 @@ class LogAnalyzer():
         #              "Lat": "GPS.Lat GPOS.Lat GPSP.Lat",
         #              "Lon": "GPS.Lng",
         #              "Alt": "GPS.Alt GPS.nSat STAT.MainState"}
-        self.plots = {"Altitude": "GPS.Alt GPS.RelAlt CMD.Alt",
+        # magField = sqrt(MAG.MagX^2+MAG.MagY^2+MAG.MagZ^2)
+        self.plots = {"Altitude": "GPS.Alt GPS.RelAlt CMD.Alt CTUN.BarAlt",
 		      "Attitude-ROLL": "ATT.Roll ATT.DesRoll",
 		      "Attitude-PITCH": "ATT.Pitch ATT.DesPitch",
 		      "Attitude-YAW": "ATT.Yaw ATT.DesYaw",
 		      "IMU-ACC": "IMU.AccX IMU.AccY IMU.AccZ",
-		      "MAG": ("MAG.MagX MAG.MagY MAG.MagZ "
-			"MAG.MagX^2, MAG.MagY^2, MAG.MagZ^2")}
+		      "MAG": "MAG.MagX MAG.MagY MAG.MagZ",
+		      "MAG-Offset": "MAG.OfsX MAG.OfsY MAG.OfsZ",
+		      "GPS": "GPS.NSats GPS.HDop",
+		      "POWER": "POWR.Vcc CURR.ThrOut CTUN.ThrIn CTUN.ThrOut",
+		      "Error": "ERR.Subsys",
+		      "RC-OUT": "RCOU.Chan1 RCOU.Chan2 RCOU.Chan3 RCOU.Chan4 RCOU.Chan5 RCOU.Chan6 RCOU.Chan7 RCOU.Chan8",
+		      "RC-IN": "RCIN.C1 RCIN.C2 RCIN.C3 RCIN.C4 RCIN.C5 RCIN.C6 RCIN.C7 RCIN.C8"
+		     }
 
     def generatePlots(self, filename, dirname):
         """produce plots for filename in dirname"""
