@@ -35,7 +35,7 @@ class LogAnalyzer():
 		      "MAG-Offset": "MAG.OfsX MAG.OfsY MAG.OfsZ",
 		      "GPS": "GPS.NSats GPS.HDop",
 		      "POWER": "POWR.Vcc CURR.ThrOut CTUN.ThrIn CTUN.ThrOut",
-		      "Error": "ERR.Subsys",
+		      #"Error": "ERR.Subsys",
 		      "RC-OUT": "RCOU.Chan1 RCOU.Chan2 RCOU.Chan3 RCOU.Chan4 RCOU.Chan5 RCOU.Chan6 RCOU.Chan7 RCOU.Chan8",
 		      "RC-IN": "RCIN.C1 RCIN.C2 RCIN.C3 RCIN.C4 RCIN.C5 RCIN.C6 RCIN.C7 RCIN.C8"
 		     }
