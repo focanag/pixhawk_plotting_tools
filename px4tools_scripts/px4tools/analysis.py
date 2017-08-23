@@ -140,6 +140,7 @@ def alt_analysis(data, min_alt=None, max_alt=None):
     plt.ylabel('altitude, m')
     background_flight_modes(data)
     plt.legend(loc='best', ncol=3)
+    plt.savefig('altitude analysis')
 
 def pos_analysis(data):
     """
@@ -165,6 +166,7 @@ def pos_analysis(data):
     plt.grid()
     plt.autoscale(True, 'both', True)
     plt.legend(loc='best')
+    plt.savefig('position analysis')
     return locals()
 
 def isfloatarray(cell):
@@ -322,7 +324,6 @@ def plot_position_loops(data):
     plt.grid(True)
     background_flight_modes(data)
 
-
 def plot_control_loops(data):
     """
     Plot all control loops.
@@ -332,7 +333,7 @@ def plot_control_loops(data):
     plot_velocity_loops(data)
     plot_position_loops(data)
 
-def statistics(df, keys=None, plot=False):
+def statistics(df, keys=None, plot=False, save=False):
     data = {}
     for key in keys:
         try:
@@ -363,6 +364,8 @@ def statistics(df, keys=None, plot=False):
             plt.hlines(mean, df.index[0], df.index[-1], 'k')
             plt.hlines([mean + stddev, mean - stddev],
                        df.index[0], df.index[-1], 'r')
+            if save:
+                plt.savefig(key + ' statistics')
     return data
 
 def find_lpe_gains(df, printing=False):
@@ -412,6 +415,7 @@ def plot_modes(data):
     data.STAT_MainState.plot()
     plt.ylim([0, 13])
     plt.yticks(range(0, 13), FLIGHT_MODES)
+    plt.savefig('modes')
     background_flight_modes(data)
 
 def background_flight_modes(data):
@@ -441,6 +445,23 @@ def process_all(data_frame, project_lat_lon=True, lpe_health=True):
 def process_lpe_health(data):
     names = ['baro', 'gps', 'lidar', 'flow', 'sonar', 'vision', 'mocap']
     try:
+      
+        #assuming nan values are only placed at the begining 
+        index1 = 0
+        for d in data.EST2_fHealth.values:
+            if math.isnan(d):
+                data.EST2_fHealth.values[index1] = 0
+                index1 = index1 + 1
+                print(index1)
+                        
+        index2 = 0
+        for d in data.EST0_fTOut.values:
+            if math.isnan(d):
+                data.EST0_fTOut.values[index2] = 0
+                index2 = index2 + 1
+                print(index2)
+                
+        
         faults = np.array([[1 if (int(data.EST2_fHealth.values[i]) & 2**j) else 0
                             for j in range(7)]
                            for i in range(len(data.EST2_fHealth.notnull().index))])
@@ -458,7 +479,7 @@ def process_lpe_health(data):
                 data=timeouts[:, i], index=data.index, name='timeout ' + names[i])
     except Exception as e:
         print(e)
-    return data
+    #return data
 
 def plot_faults(data):
     try:
@@ -485,6 +506,5 @@ def plot_timeouts(data):
     except AttributeError as e:
         print(e)
     plt.gca().set_ylim(-1, 8)
-
 
 # vim: set et fenc= ft=python ff=unix sts=0 sw=4 ts=4 :
